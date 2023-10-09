@@ -1,0 +1,59 @@
+{
+	"metrics": {
+		"PixBinaryClass.area_PRC": "PixAP",
+		"PixBinaryClass.tpr95_fpr": "Pix95",
+		"PixBinaryClass.best_f1": "PixF1",
+		"SegEval-ObstacleTrack.fn_25": "fn25",
+		"SegEval-ObstacleTrack.fp_25": "fp25",
+		"SegEval-ObstacleTrack.f1_25": "f125",
+		"SegEval-ObstacleTrack.fn_50": "fn50",
+		"SegEval-ObstacleTrack.fp_50": "fp50",
+		"SegEval-ObstacleTrack.f1_50": "f150",
+		"SegEval-ObstacleTrack.fn_75": "fn75",
+		"SegEval-ObstacleTrack.fp_75": "fp75",
+		"SegEval-ObstacleTrack.f1_75": "f175",
+		"SegEval-ObstacleTrack.sIoU_gt": "Obj_sIoU",
+		"SegEval-ObstacleTrack.prec_pred": "Obj_PPV",
+		"SegEval-ObstacleTrack.f1_mean": "Obj_F1",
+
+		"SegEval-AnomalyTrack.fn_25": "fn25",
+		"SegEval-AnomalyTrack.fp_25": "fp25",
+		"SegEval-AnomalyTrack.f1_25": "f125",
+		"SegEval-AnomalyTrack.fn_50": "fn50",
+		"SegEval-AnomalyTrack.fp_50": "fp50",
+		"SegEval-AnomalyTrack.f1_50": "f150",
+		"SegEval-AnomalyTrack.fn_75": "fn75",
+		"SegEval-AnomalyTrack.fp_75": "fp75",
+		"SegEval-AnomalyTrack.f1_75": "f175",
+		"SegEval-AnomalyTrack.sIoU_gt": "Obj_sIoU",
+		"SegEval-AnomalyTrack.prec_pred": "Obj_PPV",
+		"SegEval-AnomalyTrack.f1_mean": "Obj_F1"
+	},
+	"datasets": {
+		"AnomalyTrack-test": "T",
+		"ObstacleTrack-test": "T",
+		"LostAndFound-testNoKnown": "T"
+	},
+	"methods": {
+		"mindensity": "Embedding Density",
+		"voidclassifier": "Void classifier",
+		"dropout": "MC droput",
+		"Resynth2048Orig": "Image Resynthesis",
+		"RAOS (training)": "",
+		"1513-4-P3D-Noise4-BaSpl-PdirectStck-rep2": "Perspective Aware",
+		"SETR-AttnEntropy_all": "Ours SETR$_{all}$",
+		"SETR-AttnEntropy_1+2+3+4+5+6+7+8+9+10+11+12+13+23": "AttEntropy SETR_{manual}",
+		"Segformer-AttnEnt_manual": "AttEntropy Segformer_{manual}"
+	},
+	"plots": {
+	},
+	"colorder": [
+		"paper", "requires_ood", 
+		"T.PixAP", "T.Pix95", "T.PixF1", 
+		"T.Obj_sIoU", "T.Obj_PPV",
+		"T.fn25", "T.fp25", "T.f125", 
+		"T.fn50", "T.fp50", "T.f150", 
+		"T.fn75", "T.fp75", "T.f175",
+		"T.Obj_F1"
+	]
+} 

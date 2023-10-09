@@ -1,0 +1,36 @@
+{
+	"metrics": {
+		"PixBinaryClass.area_PRC": "PixAP",
+		"PixBinaryClass.tpr95_fpr": "TPR95",
+		"PixBinaryClass.best_f1": "",
+		"SegEval-ObstacleTrack.fn_25": "",
+		"SegEval-ObstacleTrack.fp_25": "",
+		"SegEval-ObstacleTrack.f1_25": "",
+		"SegEval-ObstacleTrack.fn_50": "",
+		"SegEval-ObstacleTrack.fp_50": "",
+		"SegEval-ObstacleTrack.f1_50": "",
+		"SegEval-ObstacleTrack.fn_75": "",
+		"SegEval-ObstacleTrack.fp_75": "",
+		"SegEval-ObstacleTrack.f1_75": "",
+		"SegEval-ObstacleTrack.sIoU_gt": "Obj sIoU",
+		"SegEval-ObstacleTrack.prec_pred": "Obj ",
+		"SegEval-ObstacleTrack.f1_mean": "Obj F1"
+	},
+	"datasets": {
+		"ObstacleTrack-test": "ObsTest",
+		"LostAndFound-testNoKnown": "LAF-tnk"
+	},
+	"methods": {
+		"mindensity": "Embedding Density",
+		"voidclassifier": "Void classifier",
+		"dropout": "MC droput",
+		"Resynth2048Orig": "Image Resynthesis",
+		"RAOS (training)": "",
+		"SETR-AttnEntropy_all": "Ours SETR$_{all}$",
+		"DenseHybrid (DeepLabv3+)": "",
+		"PEBAL": ""
+	},
+	"plots": {
+		
+	}
+} 

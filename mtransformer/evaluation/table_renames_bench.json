@@ -1,0 +1,61 @@
+{
+	"metrics": {
+		"PixBinaryClass.area_PRC": "PixAP",
+		"PixBinaryClass.tpr95_fpr": "Pix95",
+		"PixBinaryClass.best_f1": "",
+		"SegEval-ObstacleTrack.fn_25": "",
+		"SegEval-ObstacleTrack.fp_25": "",
+		"SegEval-ObstacleTrack.f1_25": "",
+		"SegEval-ObstacleTrack.fn_50": "",
+		"SegEval-ObstacleTrack.fp_50": "",
+		"SegEval-ObstacleTrack.f1_50": "",
+		"SegEval-ObstacleTrack.fn_75": "",
+		"SegEval-ObstacleTrack.fp_75": "",
+		"SegEval-ObstacleTrack.f1_75": "",
+		"SegEval-ObstacleTrack.sIoU_gt": "Obj_sIoU",
+		"SegEval-ObstacleTrack.prec_pred": "Obj_PPV",
+		"SegEval-ObstacleTrack.f1_mean": "Obj_F1",
+
+		"SegEval-AnomalyTrack.fn_25": "",
+		"SegEval-AnomalyTrack.fp_25": "",
+		"SegEval-AnomalyTrack.f1_25": "",
+		"SegEval-AnomalyTrack.fn_50": "",
+		"SegEval-AnomalyTrack.fp_50": "",
+		"SegEval-AnomalyTrack.f1_50": "",
+		"SegEval-AnomalyTrack.fn_75": "",
+		"SegEval-AnomalyTrack.fp_75": "",
+		"SegEval-AnomalyTrack.f1_75": "",
+		"SegEval-AnomalyTrack.sIoU_gt": "Obj_sIoU",
+		"SegEval-AnomalyTrack.prec_pred": "Obj_PPV",
+		"SegEval-AnomalyTrack.f1_mean": "Obj_F1"
+	},
+	"datasets": {
+		"AnomalyTrack-test": "Ano",
+		"ObstacleTrack-test": "Obs",
+		"ObstacleTrack-validation": "Obv",
+		"LostAndFound-testNoKnown": "LAF",
+		"MaSTr1325-low": "Mr",
+		"ArtificialLunarLandscape_one10": "Lu"
+	},
+	"methods": {
+		"mindensity": "Embedding Density",
+		"voidclassifier": "Void classifier",
+		"dropout": "MC droput",
+		"Resynth2048Orig": "Image Resynthesis",
+		"RAOS (training)": "",
+		"1513-4-P3D-Noise4-BaSpl-PdirectStck-rep2": "Perspective Aware",
+		"SETR-AttnEntropy_all": "Ours SETR$_{all}$",
+		"SETR-AttnEntropy_1+2+3+4+5+6+7+8+9+10+11+12+13+23": "AttEntropy SETR_{manual}",
+		"Segformer-AttnEnt_manual": "AttEntropy Segformer_{manual}"
+	},
+	"plots": {
+	},
+	"colorder": [
+		"LAF.PixAP", "LAF.Pix95", 
+		"LAF.Obj_sIoU", "LAF.Obj_PPV",
+		"LAF.Obj_F1",
+		"Obs.PixAP", "Obs.Pix95", 
+		"Obs.Obj_sIoU", "Obs.Obj_PPV",
+		"Obs.Obj_F1"
+	]
+} 

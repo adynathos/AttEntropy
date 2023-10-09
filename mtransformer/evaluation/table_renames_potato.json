@@ -1,0 +1,39 @@
+{
+	"metrics": {
+		"PixBinaryClass.area_PRC": "PixAP",
+		"PixBinaryClass.tpr95_fpr": "",
+		"PixBinaryClass.best_f1": "",
+		"SegEval-ObstacleTrack.fn_25": "",
+		"SegEval-ObstacleTrack.fp_25": "",
+		"SegEval-ObstacleTrack.f1_25": "",
+		"SegEval-ObstacleTrack.fn_50": "",
+		"SegEval-ObstacleTrack.fp_50": "",
+		"SegEval-ObstacleTrack.f1_50": "",
+		"SegEval-ObstacleTrack.fn_75": "",
+		"SegEval-ObstacleTrack.fp_75": "",
+		"SegEval-ObstacleTrack.f1_75": "",
+		"SegEval-ObstacleTrack.sIoU_gt": "Obj_sIoU",
+		"SegEval-ObstacleTrack.prec_pred": "Obj_PPV",
+		"SegEval-ObstacleTrack.f1_mean": "Obj_F1"
+	},
+	"datasets": {
+		"ObstacleTrack-test": "ObsTest",
+		"LostAndFound-testNoKnown": "LAF-tnk"
+	},
+	"methods": {
+		"mindensity": "Embedding Density",
+		"voidclassifier": "Void classifier",
+		"dropout": "MC droput",
+		"Resynth2048Orig": "Image Resynthesis",
+		"RAOS (training)": "",
+		"SETR-AttnEntropy_all": "Ours SETR$_{all}$"
+	},
+	"plots": {
+	},
+	"colorder": [
+		"requires_ood",
+		"ObsTest.Obj_F1", "ObsTest.Obj_sIoU", "ObsTest.Obj_PPV", "ObsTest.PixAP",
+		"LAF-tnk.Obj_F1", "LAF-tnk.Obj_sIoU", "LAF-tnk.Obj_PPV", "LAF-tnk.PixAP",
+		"paper"
+	]
+} 
