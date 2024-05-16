@@ -2,13 +2,11 @@
 
 # Point SegmentMe bechmark code towards the dataset storage location
 from pathlib import Path
-from os import environ
-environ['DIR_DATASETS'] = '/cvlabsrc1/cvlab'
-environ['DIR_OUTPUTS'] = '/cvlabdata2/home/lis/data/2004_AttnEntropySegMe'
-DIR_DATA = Path('/cvlabdata2/home/lis/data')
 from road_anomaly_benchmark.evaluation import Evaluation
+from road_anomaly_benchmark.datasets.dataset_io import DatasetBase, ChannelLoaderImage
 from road_anomaly_benchmark.datasets.dataset_registry import DatasetRegistry
 from road_anomaly_benchmark.paths import DIR_OUTPUTS
+from ..paths import DIR_OUT
 
 # Interactive display
 from tqdm import tqdm
@@ -95,12 +93,82 @@ MODE_1 = '1+2+3+4+5+6+7+8+9+10+11+12+13+23'
 def main():
 	...
 
+
+class LocalImageDataset(DatasetBase):
+	def discover(self, ):
+		self.frames = [EasyDict(
+			fid = Path(img_path).stem,
+			img_path = img_path,
+		) for img_path in image_paths]
+
+
+	def __len__(self):
+		return len(self.frames)
+	
+	def get_frame(self, idx_or_fid, *channels):
+		if isinstance(idx_or_fid, int):
+			fr = self.frames[idx_or_fid]
+		else:
+			fr = self.frames_by_fid[idx_or_fid]
+		
+		out_fr = EasyDict(fr, dset_name = self.cfg.get('name_for_persistence', self.cfg.name))
+
+		channels = channels or self.channels.keys()
+
+		for ch_name in channels:
+			out_fr[ch_name] = self.channels[ch_name].read(dset=self, **fr)
+
+		return out_fr
+
+
+
+@main.command()
+@click.option('--method', type=str, default=MODE_1)
+@click.option('--threshold', type=float, default=0.5)
+@click.option('--local-imgs', type=str, default="")
+def heatmaps_local(method, local_imgs, threshold=0.5):
+	segme_prepare_paths()		
+
+	local_imgs = [Path(p) for p in local_imgs.split(',')]
+	print('Checking inputs')
+	for p in local_imgs:
+		if not p.is_file():
+			raise FileNotFoundError(p)
+
+
+	populate_registry()
+	net = MethodRegistry.get(method)
+	method_name = method
+
+	def infer(img):
+		# return net.inference_custom(img).cpu().numpy()
+		res =  net.inference_custom(img)
+		# print(res.keys())
+		return res.anomaly_p.cpu().numpy()
+		# return net.inference_custom(img).cpu().numpy()
+
+
+	with ThreadPoolExecutor(4) as pool:
+		for img_path in tqdm(local_imgs):
+			image = imread(img_path)
+			result = infer(fr.image)
+
+			fr = EasyDict(
+				fid = img_path.stem,
+				image = image,
+			)
+
+			# pool.submit(visualize_ctc, fr, result, method_name=method_name, threshold=threshold, save_dir=dir_vis)
+			visualize_ctc(fr, result, method_name=method_name, threshold=threshold, save_dir=img_path.parent)
+
+
 @main.command()
 @click.option('--method', type=str, default=MODE_1)
 @click.option('--dsets', type=str)
 @click.option('--threshold', type=float, default=0.5)
 @click.option('--fids', type=str)
-def heatmaps(method, dsets, threshold=0.5, fids=None):
+@click.option('--local-imgs', type=str, default="")
+def heatmaps(method, dsets, threshold=0.5, fids=None, local_imgs=""):
 	segme_prepare_paths()
 
 	print('Checking datasets')
@@ -177,7 +245,7 @@ def prepare_layers_for_saving(attnvals):
 @main.command()
 @click.option('--method', type=str)
 @click.option('--dset', type=str)
-@click.option('--dir_out', type=click.Path(), default='/cvlabdata2/home/lis/data/2010_SynthAtten/')
+@click.option('--dir_out', type=click.Path(), default=DIR_OUT)
 def export_attn(method, dset, dir_out):
 	dir_out = Path(dir_out)
 
@@ -227,11 +295,6 @@ def export_attn(method, dset, dir_out):
 			)
 
 """
-DS=fusion_Fblur5-v3Dsz6w_cityscapes-val
-python -m mtransformer.evaluation.setr_entropy_segme export-attn --method SETR-AttnEntropy_export --dset /cvlabdata2/home/lis/data/1230_SynthObstacle/$DS/images --dir_out /cvlabdata2/home/lis/data/2010_SynthAtten/$DS/
-
-DS=fusion_Fblur5-v3Dsz6w_cityscapes-train
-
 
 python -m mtransformer.evaluation.setr_entropy_segme export-attn --method SETR-AttnEntropy_export --dset ObstacleTrack-all 
 python -m mtransformer.evaluation.setr_entropy_segme export-attn --method SETR-AttnEntropy_export --dset LostAndFound-test

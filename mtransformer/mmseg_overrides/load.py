@@ -61,12 +61,12 @@ DEFS_MMSEG_BASE['dpt_ade20k'] = dict(
 
 DEFS_MMSEG_BASE['dpt_cityonly'] = dict(
 	cfg = 'dpt_vit-b16_512x512_160k_cityscapes',
-	weight_file = '/cvlabdata2/home/lis/exp_mmseg/dpt_uninit_ctc/latest.pth',
+	weight_file = '../dpt_uninit_ctc/latest.pth',
 )
 
 DEFS_MMSEG_BASE['setr_cityonly'] = dict(
 	cfg = 'setr_vit-large_pup_8x1_768x768_80k_cityscapes',
-	weight_file = '/cvlabdata2/home/lis/exp_mmseg/setr_uninit_ctc/latest.pth',
+	weight_file = '../setr_uninit_ctc/latest.pth',
 )
 
 from .setr_attention import net_override_setr_attention
