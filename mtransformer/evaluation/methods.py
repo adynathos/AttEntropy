@@ -16,9 +16,11 @@ def populate_registry():
 		print('Failed to load dino', e)
 
 	try:
-		from ..mmseg_overrides.setr_entropy import SETR_AttnEntropyOutput
+		# from ..mmseg_overrides.setr_entropy import SETR_AttnEntropyOutput
+		from ..mmseg_overrides.entropy_methods_mmseg import SETR_AttnEntropyOutput
 	except ImportError as e:
 		print('Failed to load SETR', e)
+		raise e
 
 	try:
 		from ..mmseg_overrides.segformer_attention import Segformer_Attentropy

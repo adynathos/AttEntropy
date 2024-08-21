@@ -811,117 +811,117 @@ class SETR_AttnEntropyOutput(EncoderDecoder_NoSoftmax):
 
 
 # @MethodRegistry.register_class()
-class SETR_Attentropy:
-	CHK_SETR = 'setr_vit-large_pup_8x1_768x768_80k_cityscapes'
+# class SETR_Attentropy:
+# 	CHK_SETR = 'setr_vit-large_pup_8x1_768x768_80k_cityscapes'
 
-	configs = [
-		dict(
-			name = 'SETR-AttnEntropy_all',
-			mmseg_id = SETR_CTC,
-			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
-			combination = 'all',
-		),
-		dict(
-			name = 'SETR-AttnEntropyNm_all',
-			mmseg_id = SETR_CTC,
-			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
-			combination = 'all',
-			cls_token_renorm = True,
-		),
-		dict(
-			name = 'SETR-AttnEntropy_optJoint',
-			mmseg_id = SETR_CTC,
-			combination = [ 1.0041051, 0.53543496, 0.2311193, 0.4245265, 1.5569226, 1.2850144, 0.93282974, 0.7037886, 1.0285404, 0.27811423, 0.54325604, 1.0322673, 0.42179346, 0.24952573, 0.37413964, 0.36526784, -0.3084054, 0.20178239, 0.07209045, 0.1397108, 0.2734738, 0.12465727, 0.30621567, 1.5749772 ], #bias =  [83.26243]
-		),
-		dict(
-			name = 'SETR-AttnEntropy_optObs',
-			mmseg_id = SETR_CTC,
-			combination = [ 0.94220465, 0.49650165, 0.19390227, 0.40235323, 1.5457597, 0.6486312, 1.0374373, 0.9875229, 1.4211024, 0.31729198, 0.5706229, 1.0544578, -0.013459929, 0.11747559, 0.49340785, 0.293108, 0.26156098, 0.50121343, 0.5442355, 0.5087048, 0.23399672, -0.27153802, 0.10925831, 1.1700678 ], #bias =  [83.02567]
-		),
-		dict(
-			name = 'SETR-AttnEntropy_optLaf',
-			mmseg_id = SETR_CTC,
-			combination = [ 0.49091464, -0.33114874, 0.66966254, 0.9780063, 1.7613517, 1.3978988, 0.92120016, 0.1837711, 0.99587446, -0.05175174, 0.6498002, 1.1653223, 0.5287516, 0.3163997, 0.49146378, 0.63144904, -0.35066772, 0.10186517, -0.12736036, 0.2763532, 0.24236102, 0.15189055, 0.48054978, 1.6147711 ], #bias =  [83.61014]
-		),
-		dict(
-			name = 'SETR-AttnEntropy_1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-			mmseg_id = SETR_CTC,
-			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-		),
-		dict(
-			name = 'SETR-AttnEntropy_manual',
-			mmseg_id = SETR_CTC,
-			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-		),
-		dict(
-			name = 'SETR-AttnEntropyNm_manual',
-			mmseg_id = SETR_CTC,
-			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-			cls_token_renorm = True,
-		),
-		dict(
-			name = 'SETR-AttnEntropy_manualNoSlide',
-			mmseg_id = SETR_CTC,
-			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-			pipeline_resize = (768, 768),
-		),
-		dict(
-			name = 'SETR-AttnEntropyDiffused_1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-			mmseg_id = SETR_CTC,
-			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
-		),
-		# dict(
-			# greedy+11+4+23+6-7+8+5-22+15-16+14-17+20-13+12-21-9+10 - LAF
-			# greedy+11+4+23+6-5+8-10+14-22 - obsvalidation
-		# ),
-		dict(
-			name = 'SETR-AttnEntropy_noslide',
-			mmseg_id = SETR_CTC,
-			pipeline_resize = (768, 768),
-			combination = 'all',
-			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
-		),
-	]
+# 	configs = [
+# 		dict(
+# 			name = 'SETR-AttnEntropy_all',
+# 			mmseg_id = SETR_CTC,
+# 			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
+# 			combination = 'all',
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropyNm_all',
+# 			mmseg_id = SETR_CTC,
+# 			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
+# 			combination = 'all',
+# 			cls_token_renorm = True,
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_optJoint',
+# 			mmseg_id = SETR_CTC,
+# 			combination = [ 1.0041051, 0.53543496, 0.2311193, 0.4245265, 1.5569226, 1.2850144, 0.93282974, 0.7037886, 1.0285404, 0.27811423, 0.54325604, 1.0322673, 0.42179346, 0.24952573, 0.37413964, 0.36526784, -0.3084054, 0.20178239, 0.07209045, 0.1397108, 0.2734738, 0.12465727, 0.30621567, 1.5749772 ], #bias =  [83.26243]
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_optObs',
+# 			mmseg_id = SETR_CTC,
+# 			combination = [ 0.94220465, 0.49650165, 0.19390227, 0.40235323, 1.5457597, 0.6486312, 1.0374373, 0.9875229, 1.4211024, 0.31729198, 0.5706229, 1.0544578, -0.013459929, 0.11747559, 0.49340785, 0.293108, 0.26156098, 0.50121343, 0.5442355, 0.5087048, 0.23399672, -0.27153802, 0.10925831, 1.1700678 ], #bias =  [83.02567]
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_optLaf',
+# 			mmseg_id = SETR_CTC,
+# 			combination = [ 0.49091464, -0.33114874, 0.66966254, 0.9780063, 1.7613517, 1.3978988, 0.92120016, 0.1837711, 0.99587446, -0.05175174, 0.6498002, 1.1653223, 0.5287516, 0.3163997, 0.49146378, 0.63144904, -0.35066772, 0.10186517, -0.12736036, 0.2763532, 0.24236102, 0.15189055, 0.48054978, 1.6147711 ], #bias =  [83.61014]
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 			mmseg_id = SETR_CTC,
+# 			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_manual',
+# 			mmseg_id = SETR_CTC,
+# 			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropyNm_manual',
+# 			mmseg_id = SETR_CTC,
+# 			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 			cls_token_renorm = True,
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_manualNoSlide',
+# 			mmseg_id = SETR_CTC,
+# 			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 			pipeline_resize = (768, 768),
+# 		),
+# 		dict(
+# 			name = 'SETR-AttnEntropyDiffused_1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 			mmseg_id = SETR_CTC,
+# 			combination = '+1+2+3+4+5+6+7+8+9+10+11+12+13+23',
+# 		),
+# 		# dict(
+# 			# greedy+11+4+23+6-7+8+5-22+15-16+14-17+20-13+12-21-9+10 - LAF
+# 			# greedy+11+4+23+6-5+8-10+14-22 - obsvalidation
+# 		# ),
+# 		dict(
+# 			name = 'SETR-AttnEntropy_noslide',
+# 			mmseg_id = SETR_CTC,
+# 			pipeline_resize = (768, 768),
+# 			combination = 'all',
+# 			# variant_name = 'SETR-AttnEntropy_' + '+'.join(map(str, range(24))),
+# 		),
+# 	]
 
-	@staticmethod
-	def parse_combination_str(combination, num_layers=24):
-		if combination == 'all':
-			return [1] * num_layers
+# 	@staticmethod
+# 	def parse_combination_str(combination, num_layers=24):
+# 		if combination == 'all':
+# 			return [1] * num_layers
 			
-		layers = re.findall(r'([+-]\d+)', combination)
-		combination = [0] * num_layers
+# 		layers = re.findall(r'([+-]\d+)', combination)
+# 		combination = [0] * num_layers
 
-		for layer in layers:
-			sign = {'+': 1, '-': -1}[layer[0]]
-			lid = int(layer[1:])
-			combination[lid] = sign
+# 		for layer in layers:
+# 			sign = {'+': 1, '-': -1}[layer[0]]
+# 			lid = int(layer[1:])
+# 			combination[lid] = sign
 
-		return combination
+# 		return combination
 
-	def __new__(cls, config):
-		if isinstance(config.combination, str):
-			combination = cls.parse_combination_str(config.combination)
-		else:
-			combination = config.combination
+# 	def __new__(cls, config):
+# 		if isinstance(config.combination, str):
+# 			combination = cls.parse_combination_str(config.combination)
+# 		else:
+# 			combination = config.combination
 
-		device = 'cuda:0'
-		net_segf_base = load_mmseg_from_cfg(DEFS_MMSEG_BASE[config.checkpoint], device=device)
-		net = SETR_AttnEntropyOutput.from_superclass(net_segf_base)
-		net.config = config
-		net.combination = combination
+# 		device = 'cuda:0'
+# 		net_segf_base = load_mmseg_from_cfg(DEFS_MMSEG_BASE[config.checkpoint], device=device)
+# 		net = SETR_AttnEntropyOutput.from_superclass(net_segf_base)
+# 		net.config = config
+# 		net.combination = combination
 
-		pipeline_resize = config.get('pipeline_resize', None)
-		if pipeline_resize is not None:
-			raise NotImplementedError('pipeline_resize')
-			print('pipeline resize', pipeline_resize)
-			net.cfg.data.test.pipeline[1].img_scale = tuple(pipeline_resize) # prevent resizing to (1025,1025)
+# 		pipeline_resize = config.get('pipeline_resize', None)
+# 		if pipeline_resize is not None:
+# 			raise NotImplementedError('pipeline_resize')
+# 			print('pipeline resize', pipeline_resize)
+# 			net.cfg.data.test.pipeline[1].img_scale = tuple(pipeline_resize) # prevent resizing to (1025,1025)
 
-		cls_token_renorm = config.get('cls_token_renorm', False)
-		if cls_token_renorm:
-			net.cls_token_renorm = True
+# 		cls_token_renorm = config.get('cls_token_renorm', False)
+# 		if cls_token_renorm:
+# 			net.cls_token_renorm = True
 
-		# don't set net.cfg because that is in use by mmseg
-		return net
+# 		# don't set net.cfg because that is in use by mmseg
+# 		return net
 	
 
 """
