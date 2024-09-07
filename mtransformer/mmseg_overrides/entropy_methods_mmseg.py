@@ -752,6 +752,9 @@ class SETR_AttnEntropyOutput(EncoderDecoder_NoSoftmax):
 
 			out = inference_model(self, image)
 			entropy_and_logit = out.seg_logits.data
+			print(f"{entropy_and_logit.shape=}")
+			print(out)
+
 			self.extra_output_storage.clear()
 
 			# return out
@@ -773,12 +776,12 @@ class SETR_AttnEntropyOutput(EncoderDecoder_NoSoftmax):
 
 			
 			else:
-				entropy = entropy_and_logit[:, 0]
-				seg_class = entropy_and_logit[:, 1:].argmax(dim=1)
+				entropy = entropy_and_logit[0]
+				seg_class = entropy_and_logit[1:].argmax(dim=0)
 
 				return EasyDict(
-					anomaly_p = -entropy[0],
-					seg_class = seg_class[0],
+					anomaly_p = -entropy,
+					seg_class = seg_class,
 					out_raw = entropy_and_logit,
 					# seg_overlay = semantic_overlay(image, seg_class[0], self.PALETTE)
 				)

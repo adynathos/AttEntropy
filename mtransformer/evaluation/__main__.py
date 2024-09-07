@@ -2,23 +2,27 @@
 
 # Point SegmentMe bechmark code towards the dataset storage location
 from pathlib import Path
-from road_anomaly_benchmark.evaluation import Evaluation
-from road_anomaly_benchmark.datasets.dataset_io import DatasetBase, ChannelLoaderImage
-from road_anomaly_benchmark.datasets.dataset_registry import DatasetRegistry
-from road_anomaly_benchmark.paths import DIR_OUTPUTS
-from ..paths import DIR_OUT
+from concurrent.futures import ThreadPoolExecutor
 
 # Interactive display
+from easydict import EasyDict
 from tqdm import tqdm
 import click
 from matplotlib import cm
 import numpy as np
-from concurrent.futures import ThreadPoolExecutor
+from kornia.geometry.transform import pyrdown
+import h5py
 
+
+from road_anomaly_benchmark.evaluation import Evaluation
+from road_anomaly_benchmark.datasets.dataset_io import DatasetBase, ChannelLoaderImage
+from road_anomaly_benchmark.datasets.dataset_registry import DatasetRegistry
+from road_anomaly_benchmark.paths import DIR_OUTPUTS
+
+from ..paths import DIR_OUT
 from .methods import MethodRegistry, populate_registry
 from .island import calc_road_area_contour
 from ..visualization.show_image_edit import imread, imwrite, adapt_img_data, image_montage_same_shape
-from easydict import EasyDict
 
 
 	
@@ -60,10 +64,12 @@ def visualize(fr, score, method_name='', save_dir=None):
 def visualize_ctc(fr, score, method_name='', save_dir=None, threshold =0.5):
 	# heatmap = adapt_img_data(score, cmap_pos=CMAP)
 	heatmap = adapt_img_data(-score)
-	mask_road = fr.label_pixel_gt <= 2
-	
 	fused_img = fr.image.copy()
-	fused_img[mask_road] = heatmap[mask_road]
+
+	label = fr.get("label_pixel_gt", None)
+	if label is not None:
+		mask_road = label <= 2
+		fused_img[mask_road] = heatmap[mask_road]
 	
 	demo_img = image_montage_same_shape(
 		[fr.image, heatmap, fused_img, score > threshold],
@@ -73,16 +79,19 @@ def visualize_ctc(fr, score, method_name='', save_dir=None, threshold =0.5):
 		downsample = 2,
 	)
 
-	gt_img = np.full(fr.image.shape, 255, dtype=np.uint8)
-	gt_img[mask_road] = (0, 0, 0)
-	gt_img[fr.label_pixel_gt == 0] = (0, 0, 0)
-	gt_img[fr.label_pixel_gt == 1] = (200, 0, 0)
+	if label is not None:
+		gt_img = np.full(fr.image.shape, 255, dtype=np.uint8)
+		gt_img[mask_road] = (0, 0, 0)
+		gt_img[label == 0] = (0, 0, 0)
+		gt_img[label == 1] = (200, 0, 0)
 	
 	if save_dir:
 		imwrite(save_dir / f'{fr.fid}_image.jpg', fr.image)
 		imwrite(save_dir / f'{fr.fid}_heat.jpg', heatmap)
-		imwrite(save_dir / f'{fr.fid}_gt.png', gt_img)
 		imwrite(save_dir / f'{fr.fid}_all.webp', demo_img)
+		if label is not None:
+			imwrite(save_dir / f'{fr.fid}_gt.png', gt_img)
+
 
 	return demo_img
 
@@ -95,7 +104,7 @@ def main():
 
 
 class LocalImageDataset(DatasetBase):
-	def discover(self, ):
+	def discover(self, image_paths):
 		self.frames = [EasyDict(
 			fid = Path(img_path).stem,
 			img_path = img_path,
@@ -148,18 +157,18 @@ def heatmaps_local(method, local_imgs, threshold=0.5):
 		# return net.inference_custom(img).cpu().numpy()
 
 
-	with ThreadPoolExecutor(4) as pool:
-		for img_path in tqdm(local_imgs):
-			image = imread(img_path)
-			result = infer(fr.image)
+	# with ThreadPoolExecutor(4) as pool:
+	for img_path in tqdm(local_imgs):
+		fr = EasyDict(
+			fid = img_path.stem,
+			image = imread(img_path),
+		)
+		result = infer(fr.image)
 
-			fr = EasyDict(
-				fid = img_path.stem,
-				image = image,
-			)
+		print(result.shape, result.dtype)
 
-			# pool.submit(visualize_ctc, fr, result, method_name=method_name, threshold=threshold, save_dir=dir_vis)
-			visualize_ctc(fr, result, method_name=method_name, threshold=threshold, save_dir=img_path.parent)
+		# pool.submit(visualize_ctc, fr, result, method_name=method_name, threshold=threshold, save_dir=dir_vis)
+		visualize_ctc(fr, result, method_name=method_name, threshold=threshold, save_dir=img_path.parent)
 
 
 @main.command()
@@ -231,13 +240,12 @@ def heatmaps(method, dsets, threshold=0.5, fids=None, local_imgs=""):
 				visualize_ctc(fr, result, method_name=method_name, threshold=threshold, save_dir=dir_vis)
 
 
-import h5py
+
 def save_attn(path, attnvals):
 	with h5py.File(path, 'w') as file_out:
 		file_out['attention_layers'] = attnvals
 
 	
-from kornia.geometry.transform import pyrdown
 def prepare_layers_for_saving(attnvals):
 	resized = pyrdown(attnvals[None], factor=4)[0]
 	return resized.half().cpu().numpy()
